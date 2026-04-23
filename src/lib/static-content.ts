@@ -154,6 +154,10 @@ const modernBlogSection = `
         </div>
       </section>`.trim();
 
+const blogSectionPattern = new RegExp(
+  '<section class="blog" id="blog">[\\s\\S]*?</section>',
+);
+
 function readSource(relativePath: string) {
   return fs.readFileSync(path.join(process.cwd(), relativePath), "utf8");
 }
@@ -169,8 +173,8 @@ function extract(html: string, start: string, end: string) {
   return html.slice(startIndex + start.length, endIndex).trim();
 }
 
-function extractRegex(html: string, pattern: RegExp, label: string) {
-  const match = html.match(pattern);
+function extractRegex(html: string, regex: RegExp, label: string) {
+  const match = html.match(regex);
 
   if (!match) {
     throw new Error(`Missing static metadata: ${label}`);
@@ -187,10 +191,7 @@ function normalizeRoutes(html: string) {
 }
 
 function withModernBlogSection(html: string) {
-  return html.replace(
-    <section class="blog" id="blog">[\s\S]*?<\/section>/,
-    modernBlogSection,
-  );
+  return html.replace(blogSectionPattern, modernBlogSection);
 }
 
 function metadataFrom(html: string, fallbackCanonical: string): StaticMetadata {
