@@ -58,6 +58,14 @@ const routeReplacements: Array<[RegExp, string]> = [
 ];
 
 const extraCss = `
+.blog-intro {
+  max-width: 720px;
+  margin: 14px 0 0;
+  color: rgba(244, 241, 232, 0.78);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
 .modal-call {
   display: grid;
   gap: 4px;
@@ -85,6 +93,67 @@ const extraCss = `
 }
 `;
 
+const modernBlogSection = `
+<section class="blog" id="blog">
+        <div class="container">
+          <span class="section-tag">Guides pratiques</span>
+          <h2 class="section-title">Des conseils simples pour mieux planifier vos travaux</h2>
+          <p class="blog-intro">
+            Déneigement, défrichage ou fauchage : trouvez rapidement les bons repères pour préparer votre terrain,
+            poser les bonnes questions et choisir le service adapté à votre situation.
+          </p>
+          <div class="blog-grid">
+            <article class="blog-card">
+              <time datetime="2026-01-15">Hiver et accès</time>
+              <h3>Déneigement entrée résidentielle Lévis</h3>
+              <p>
+                Préparez votre entrée avant les premières bordées et découvrez comment garder un accès plus
+                sécuritaire, dégagé et facile à utiliser tout l’hiver.
+              </p>
+              <a class="text-link" href="/deneigement-entree-residentielle-levis/">
+                Voir les conseils déneigement
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </article>
+
+            <article class="blog-card">
+              <time datetime="2026-04-01">Terrain à ouvrir</time>
+              <h3>Défrichage terrain Lévis</h3>
+              <p>
+                Voyez quoi prévoir pour dégager un terrain boisé ou envahi, ouvrir l’accès et rendre l’espace prêt
+                pour un aménagement, une vente ou des travaux.
+              </p>
+              <a class="text-link" href="/defrichage-terrain-levis/">
+                Planifier un défrichage
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </article>
+
+            <article class="blog-card">
+              <time datetime="2026-05-10">Végétation haute</time>
+              <h3>Fauchage mécanique Lévis</h3>
+              <p>
+                Comprenez quand le fauchage mécanique devient la meilleure option pour les grands terrains, les
+                fossés, les lots vacants et les zones difficiles à entretenir.
+              </p>
+              <a class="text-link" href="/fauchage-mecanique-levis/">
+                Explorer le fauchage mécanique
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>`.trim();
+
 function readSource(relativePath: string) {
   return fs.readFileSync(path.join(process.cwd(), relativePath), "utf8");
 }
@@ -100,8 +169,8 @@ function extract(html: string, start: string, end: string) {
   return html.slice(startIndex + start.length, endIndex).trim();
 }
 
-function extractRegex(html: string, regex: RegExp, label: string) {
-  const match = html.match(regex);
+function extractRegex(html: string, pattern: RegExp, label: string) {
+  const match = html.match(pattern);
 
   if (!match) {
     throw new Error(`Missing static metadata: ${label}`);
@@ -114,6 +183,13 @@ function normalizeRoutes(html: string) {
   return routeReplacements.reduce(
     (current, [pattern, replacement]) => current.replace(pattern, replacement),
     html,
+  );
+}
+
+function withModernBlogSection(html: string) {
+  return html.replace(
+    <section class="blog" id="blog">[\s\S]*?<\/section>/,
+    modernBlogSection,
   );
 }
 
@@ -167,7 +243,7 @@ export function getHomeMetadata() {
 }
 
 export function getHomeMainHtml() {
-  return normalizeRoutes(extract(readSource("index.html"), "<main>", "</main>"));
+  return normalizeRoutes(withModernBlogSection(extract(readSource("index.html"), "<main>", "</main>")));
 }
 
 export function getHomeModalHtml() {
