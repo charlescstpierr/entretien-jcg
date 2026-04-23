@@ -1,0 +1,74 @@
+name: Sync static Entretien JCG site
+
+on:
+  push:
+    paths:
+      - ".github/workflows/sync-static-site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-static-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace repository with deployed static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_URL="https://entretien-jcg.pages.dev"
+
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+
+          mkdir -p assets defrichage-terrain-levis deneigement-entree-residentielle-levis fauchage-mecanique-levis politique-confidentialite
+
+          curl -fsSL "$BASE_URL/" -o index.html
+          curl -fsSL "$BASE_URL/defrichage-terrain-levis/" -o defrichage-terrain-levis/index.html
+          curl -fsSL "$BASE_URL/deneigement-entree-residentielle-levis/" -o deneigement-entree-residentielle-levis/index.html
+          curl -fsSL "$BASE_URL/fauchage-mecanique-levis/" -o fauchage-mecanique-levis/index.html
+          curl -fsSL "$BASE_URL/politique-confidentialite/" -o politique-confidentialite/index.html
+
+          curl -fsSL "$BASE_URL/assets/article.css" -o assets/article.css
+          curl -fsSL "$BASE_URL/assets/jcg-logo-alpha.png" -o assets/jcg-logo-alpha.png
+          curl -fsSL "$BASE_URL/assets/jcg-hero-truck-optimized.jpg" -o assets/jcg-hero-truck-optimized.jpg
+          curl -fsSL "$BASE_URL/assets/jcg-defrichage.jpg" -o assets/jcg-defrichage.jpg
+          curl -fsSL "$BASE_URL/assets/jcg-nivelage.webp" -o assets/jcg-nivelage.webp
+          curl -fsSL "$BASE_URL/assets/snow-tractor-home-optimized.jpg" -o assets/snow-tractor-home-optimized.jpg
+          curl -fsSL "$BASE_URL/assets/before-yard-real-optimized.jpg" -o assets/before-yard-real-optimized.jpg
+          curl -fsSL "$BASE_URL/assets/after-yard-real-optimized.jpg" -o assets/after-yard-real-optimized.jpg
+
+          cat > _redirects <<'EOF'
+          /defrichage-terrain-levis /defrichage-terrain-levis/index.html 200
+          /deneigement-entree-residentielle-levis /deneigement-entree-residentielle-levis/index.html 200
+          /fauchage-mecanique-levis /fauchage-mecanique-levis/index.html 200
+          /politique-confidentialite /politique-confidentialite/index.html 200
+          EOF
+          sed -i 's/^          //' _redirects
+
+          cat > README.md <<'EOF'
+          # Entretien JCG
+
+          Site statique HTML/CSS pour Entretien JCG.
+
+          Pages incluses :
+          - Accueil
+          - Défrichage terrain Lévis
+          - Déneigement entrée résidentielle Lévis
+          - Fauchage mécanique Lévis
+          - Politique de confidentialité
+
+          Déploiement : GitHub + Cloudflare Pages.
+          EOF
+          sed -i 's/^          //' README.md
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy static Entretien JCG site" || exit 0
+          git push
