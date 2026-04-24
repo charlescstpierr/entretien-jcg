@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { QuoteModal } from "@/components/QuoteModal";
 import { MainMarkup } from "@/components/StaticMarkup";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteInteractions } from "@/components/SiteInteractions";
+import { StickyMobileCta } from "@/components/StickyMobileCta";
 import { getStaticPage, staticPageSlugs } from "@/lib/static-content";
 
 export const dynamicParams = false;
@@ -49,6 +52,9 @@ export default async function StaticContentPage({ params }: PageProps) {
       ) : null}
       <MainMarkup html={page.mainHtml} />
       <SiteFooter label={page.footerLabel} />
+      <QuoteModal />
+      <StickyMobileCta />
+      <SiteInteractions />
     </>
   );
 }

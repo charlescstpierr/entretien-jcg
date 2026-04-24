@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { getSiteCss } from "@/lib/static-content";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,9 +12,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr-CA">
-      <head>
-        <style dangerouslySetInnerHTML={{ __html: getSiteCss() }} />
-      </head>
       <body>{children}</body>
     </html>
   );

@@ -1,18 +1,25 @@
 # Entretien JCG
 
-Site vitrine Entretien JCG migré vers Next.js App Router, TypeScript et Tailwind CSS.
+Site vitrine Entretien JCG construit avec Next.js App Router et TypeScript.
 
-## Développement
+## Developpement
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Déploiement Cloudflare Pages
+## Verification
+
+```bash
+npm run lint
+npm run build
+```
+
+## Deploiement
+
+Le deploiement principal est gere par Vercel depuis la branche `main`.
 
 - Install command: `npm install`
 - Build command: `npm run build`
-- Output directory: `out`
-
-Le site est exporté statiquement avec `output: "export"`, `trailingSlash: true` et les images non optimisées pour rester compatible avec Cloudflare Pages.
+- Framework preset: Next.js
