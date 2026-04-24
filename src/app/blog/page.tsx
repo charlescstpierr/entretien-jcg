@@ -11,9 +11,9 @@ import { StickyMobileCta } from "@/components/StickyMobileCta";
 import { contact } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Blog terrain | Conseils déneigement, défrichage et fauchage | Entretien JCG",
+  title: "Blog terrain | Conseils travaux extérieurs | Entretien JCG",
   description:
-    "Articles pratiques d’Entretien JCG pour planifier le déneigement résidentiel, le défrichage de terrain et le fauchage mécanique à Lévis.",
+    "Articles pratiques d’Entretien JCG pour planifier déneigement, défrichage, débroussaillage, fauchage et préparation de sol à Lévis.",
   alternates: { canonical: "https://www.entretienjcg.ca/blog/" },
 };
 
@@ -37,7 +37,7 @@ export default function BlogPage() {
               <h2>Les bons repères avant de passer à l’action</h2>
               <p>
                 Le blog regroupe les guides utiles pour comprendre le bon service, préparer votre terrain et accélérer
-                la discussion avec Entretien JCG.
+                la discussion avec Entretien JCG : déneigement, défrichage, débroussaillage, fauchage et rotoculteur.
               </p>
             </div>
             <BlogCards />

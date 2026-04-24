@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { QuoteModal } from "@/components/QuoteModal";
+import { RelatedArticles } from "@/components/RelatedArticles";
 import { MainMarkup } from "@/components/StaticMarkup";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -51,6 +52,11 @@ export default async function StaticContentPage({ params }: PageProps) {
         />
       ) : null}
       <MainMarkup html={page.mainHtml} />
+      <section className="legacy-related-section">
+        <div className="container">
+          <RelatedArticles currentHref={`/${slug}/`} />
+        </div>
+      </section>
       <SiteFooter label={page.footerLabel} />
       <QuoteModal />
       <StickyMobileCta />

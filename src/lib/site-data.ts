@@ -16,7 +16,9 @@ export const navLinks = [
 
 export const serviceOptions = [
   "Défrichage / débroussaillage",
+  "Débroussaillage terrain vacant",
   "Entretien de terrain",
+  "Préparation de sol au rotoculteur",
   "Déneigement résidentiel",
   "Fauchage mécanique",
   "Autre besoin",
@@ -62,6 +64,22 @@ export const services = [
 ];
 
 export const guideLinks = [
+  {
+    title: "Préparation de sol au rotoculteur Lévis",
+    label: "Sol à préparer",
+    href: "/preparation-sol-rotoculteur-levis/",
+    image: "/assets/jcg-nivelage.webp",
+    readTime: "5 min",
+    text: "Préparer un jardin, une semence de gazon ou une plate-bande avec une terre plus meuble et uniforme.",
+  },
+  {
+    title: "Débroussaillage terrain vacant Lévis",
+    label: "Terrain vacant",
+    href: "/debroussaillage-terrain-vacant-levis/",
+    image: "/assets/before-yard-real-optimized.jpg",
+    readTime: "5 min",
+    text: "Couper les herbes hautes et broussailles pour rendre un lot plus propre, sécuritaire et accessible.",
+  },
   {
     title: "Déneigement entrée résidentielle Lévis",
     label: "Hiver et accès",
